@@ -73,14 +73,14 @@ This document summarizes the integration of Greyhound (network-based polynomial 
 
 ## Implementation Status
 
-### ✅ Completed
+### Completed
 - FFI bindings structure
 - Trait implementation structure
 - Module organization
 - Build configuration
 - Engine renaming
 
-### ⚠️ Needs Refinement
+###  Needs Refinement
 The following areas need proper implementation:
 
 1. **Field-to-Polynomial Conversion** (`commit` method):
