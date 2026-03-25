@@ -1,12 +1,12 @@
 # Greyhound PCS Replacement - Implementation Summary
 
-## Status: ✅ Structure Complete, ⚠️ Production Refinement Needed
+## Status: Structure Complete,  Production Refinement Needed
 
 The Hyrax PCS has been successfully replaced with Greyhound PCS in Spartan2. The integration is structurally complete and compiles without errors.
 
 ## What Has Been Completed
 
-### 1. ✅ FFI Bindings (`greyhound_ffi.rs`)
+### 1.  FFI Bindings (`greyhound_ffi.rs`)
 - Complete Rust bindings for Greyhound C functions
 - Proper structure definitions matching C API
 - All necessary functions exported:
@@ -15,7 +15,7 @@ The Hyrax PCS has been successfully replaced with Greyhound PCS in Spartan2. The
   - Memory management functions
   - Verification functions
 
-### 2. ✅ Greyhound PCS Implementation (`greyhound_pc.rs`)
+### 2.  Greyhound PCS Implementation (`greyhound_pc.rs`)
 - Full implementation of `PCSEngineTrait<E>`
 - All required methods implemented:
   - `setup()` - Initialize commitment parameters
@@ -28,12 +28,12 @@ The Hyrax PCS has been successfully replaced with Greyhound PCS in Spartan2. The
   - `prove()` - Generate evaluation proofs using `polcom_eval` and `polcom_reduce`
   - `verify()` - Verify evaluation proofs
 
-### 3. ✅ Scalar-to-Polynomial Conversion
+### 3.  Scalar-to-Polynomial Conversion
 - `scalar_to_int64_array()` - Converts scalar field elements to int64 arrays
 - `scalars_to_polz()` - Converts vector of scalars to polz array using C function
 - Proper handling of modulus and field arithmetic
 
-### 4. ✅ Module Integration
+### 4.  Module Integration
 - Added `greyhound_pc` to `pcs/mod.rs`
 - Updated `provider/mod.rs` to use `GreyhoundPCS` instead of `HyraxPCS`
 - Renamed all engines:
@@ -43,13 +43,13 @@ The Hyrax PCS has been successfully replaced with Greyhound PCS in Spartan2. The
   - `T256HyraxEngine` → `T256GreyhoundEngine`
 - Added deprecated aliases for backward compatibility
 
-### 5. ✅ Build Configuration
+### 5.  Build Configuration
 - `build.rs` properly compiles Greyhound C library
 - All necessary C sources included
 - Assembly files included for x86_64
 - Proper compiler flags and includes
 
-### 6. ✅ Example Updates
+### 6.  Example Updates
 - Updated `sha256.rs` example to use `T256GreyhoundEngine`
 
 ## Architecture Differences: Hyrax vs Greyhound
@@ -88,7 +88,7 @@ The Hyrax PCS has been successfully replaced with Greyhound PCS in Spartan2. The
 
 ## Areas Requiring Production Refinement
 
-### 1. ⚠️ Memory Management
+### 1.  Memory Management
 **Current State**: Basic memory management with some intentional leaks for simplicity
 **Needs**:
 - Proper RAII wrappers for C structures
@@ -109,7 +109,7 @@ impl Drop for PolcomctxGuard {
 }
 ```
 
-### 2. ⚠️ Serialization
+### 2.  Serialization
 **Current State**: Basic serialization, some structures can't be serialized (raw pointers)
 **Needs**:
 - Custom serialization for proof structures
@@ -120,7 +120,7 @@ impl Drop for PolcomctxGuard {
 - Serializes only the hash and metadata
 - Reconstructs structures from minimal data during verification
 
-### 3. ⚠️ Multilinear Polynomial Evaluation
+### 3.  Multilinear Polynomial Evaluation
 **Current State**: Simplified conversion (uses first scalar as evaluation point)
 **Needs**:
 - Proper multilinear polynomial evaluation
@@ -132,14 +132,14 @@ impl Drop for PolcomctxGuard {
 - Use proper polynomial evaluation algorithm
 - Handle edge cases (empty point, single variable, etc.)
 
-### 4. ⚠️ Error Handling
+### 4.  Error Handling
 **Current State**: Basic error handling
 **Needs**:
 - More detailed error messages
 - Proper error propagation from C functions
 - Validation of all inputs
 
-### 5. ⚠️ Testing
+### 5.  Testing
 **Current State**: No tests yet
 **Needs**:
 - Unit tests for conversion functions
